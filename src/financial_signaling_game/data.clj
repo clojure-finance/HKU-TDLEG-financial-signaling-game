@@ -133,7 +133,10 @@
 
 (defn visual-control
 "Produce pie charts depicting investee companies' status using incanter"  
-  [ds]  
+  [ds] 
+  (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
+                  ($rollup :count :Share_Ratio :years))
+    (save (pie-chart :years :Share_Ratio :title "Year Distribution") "resources/visual-years.png"))
   (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
                  ($rollup :count :Share_Ratio :Location))
     (save (pie-chart :Location :Share_Ratio :title "Location Distribution") "resources/visual-location.png"))
