@@ -45,7 +45,6 @@
     (ds/write! "resources/correlation-matrix.csv")))
 
 ;; Now let's do the regression work! We will test the signaling effects of equity share ratio to the number of investors and investment amount.
-;; Now let's do the regression work! We will test the signaling effects of equity share ratio to the number of investors and investment amount.
 ;; We should firstly set the inference target.
 ;; We could split the datasets to "train" and "test". Then we could train one and test another.
 (def reg-investamt-ds (-> real-data
