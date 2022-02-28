@@ -175,8 +175,7 @@
      {:Company_Status (ds-reduce/first-value :Company_Status)
       :Share_Ratio_avg (ds-reduce/mean :Share_Ratio)
       :Invest_Amount_avg (ds-reduce/mean :Success) 
-      :Num_Investors_avg (ds-reduce/mean :Num_Investors)
-      :Number (ds-reduce/row-count)}
+      :Num_Investors_avg (ds-reduce/mean :Num_Investors)}
      visds)
     (ds/sort-by-column visds :Company_Status)))
 
