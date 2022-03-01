@@ -89,7 +89,9 @@
        :Investment_Date
        :Investment_Date_Code
        :Disclosed_Equity_Contribution)
-       (ds/categorical->number cf/categorical)))
+      (assoc :Investor_Equity_Total (dfn//(ds :Investor_Equity_Total) 1000000))
+      (assoc :Round_Equity_Total (dfn// (ds :Round_Equity_Total) 1000000))
+      (ds/categorical->number cf/categorical)))
 
 (defn processing
 "Processing data and prepare a discription"  
