@@ -134,18 +134,27 @@
 (defn visual-control
 "Produce pie charts depicting investee companies' status using incanter"  
   [ds] 
-  (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
-                  ($rollup :count :Share_Ratio :years))
-    (save (pie-chart :years :Share_Ratio :title "Year Distribution") "resources/visual-years.png"))
-  (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
-                 ($rollup :count :Share_Ratio :Location))
-    (save (pie-chart :Location :Share_Ratio :title "Location Distribution") "resources/visual-location.png"))
-  (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
-                  ($rollup :count :Share_Ratio :Company_Status))
-    (save (pie-chart :Company_Status :Share_Ratio :title "Company Status Distribution") "resources/visual-company-status.png"))
-  (with-data (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar) (ds/mapseq-reader) (seq) (to-dataset))
-                  ($rollup :count :Share_Ratio :Industry_Sector))
-    (save (pie-chart :Industry_Sector :Share_Ratio :title "Industry Distribution") "resources/visual-industry.png")))
+  (let [control-pivot (->> (-> ds (importdata) (choosedate) (indepvar) (controlvar) (depvar)
+                 (ds/mapseq-reader) (seq) (to-dataset))
+             ($rollup :count :Share_Ratio [:years :Location :Company_Status :Industry_Sector]))] 
+    (with-data (->> control-pivot
+                     ($rollup :sum :Share_Ratio :years))
+       (save (pie-chart
+              :years :Share_Ratio
+              :title "Year Distribution") "resources/visual-years.png"))
+    (with-data (->> control-pivot
+                    ($rollup :sum :Share_Ratio :Location))
+      (save (pie-chart
+             :Location :Share_Ratio
+             :title "Location Distribution") "resources/visual-location.png"))
+    (with-data (->> control-pivot
+                    ($rollup :sum :Share_Ratio :Company_Status))
+      (save (pie-chart :Company_Status :Share_Ratio
+                       :title "Company Status Distribution") "resources/visual-company-status.png"))
+    (with-data (->> control-pivot
+                ($rollup :sum :Share_Ratio :Industry_Sector))
+      (save (pie-chart :Industry_Sector :Share_Ratio
+                   :title "Industry Distribution") "resources/visual-industry.png"))))
 
 (defn category-invest-amt
   "group investor number into 5 categories for visualization"
