@@ -73,31 +73,35 @@
       (println "(benchmark-firm H)<(benchmark-investor 1)")
       (cond
         (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
-        (do 
-          (println "Separate-H-Reject")  
+        (do
+          (println "Separate Equilibrium")
           (println (str "H reject when q>" qH)))
         (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
         (do
-          (println "Separate-L-Reject")
+          (println "Separate Equilibrium")
           (println (str "L reject when q>" qL)))
         (and (> qH 1) (> qL 1))
-        "Pool-Accept"
-        :else "Pool-Reject"))
+        (do
+          (println "Pool Equilibrium")
+          (println "Both Accept"))
+        :else (do (println "Pool Equilibrium") (println "Both Reject"))))
     :else
     (do
       (println "(benchmark-firm H)>=(benchmark-investor 1)")
       (cond
         (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
         (do
-          (println "Separate-H-Reject")
+          (println "Separate Equilibrium")
           (println (str "H reject when q>" qH)))
         (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
         (do
-          (println "Separate-L-Reject")
+          (println "Separate Equilibrium")
           (println (str "L reject when q>" qL)))
         (and (> qH 1) (> qL 1))
-        "Pool-Accept"
-        :else "Pool-Reject")))))
+        (do 
+          (println "Pool Equilibrium")
+          (println "Both Accept"))
+        :else (do (println "Pool Equilibrium") (println "Both Reject")))))))
    
 ;; We could also do data-visualization using tech-viz.
 (defn visual
