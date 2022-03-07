@@ -112,9 +112,10 @@
 
 (defn -main
   []
-  (reset! R (+ (* @I (+ 1 @rate)) (rand 500000)))
-  (reset! I (rand 500000))
   (reset! rate (rand))
+  (reset! I (rand 500000))
+  (reset! R (+ (* @I (+ 1 @rate)) (rand 500000)))
+  (println (ds/head (testrun)))
   (ds/write! (testrun) "resources/model/test-outcome.csv")
   (println (eva-cond))
   (visual))
