@@ -75,11 +75,11 @@
         (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
         (do 
           (println "Separate-H-Reject")  
-          (println qH))
+          (println (str "H reject when q>" qH)))
         (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
         (do
           (println "Separate-L-Reject")
-          (println qL))
+          (println (str "L reject when q>" qL)))
         (and (> qH 1) (> qL 1))
         "Pool-Accept"
         :else "Pool-Reject"))
@@ -90,15 +90,15 @@
         (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
         (do
           (println "Separate-H-Reject")
-          (println qH))
+          (println (str "H reject when q>" qH)))
         (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
         (do
           (println "Separate-L-Reject")
-          (println qL))
+          (println (str "L reject when q>" qL)))
         (and (> qH 1) (> qL 1))
         "Pool-Accept"
         :else "Pool-Reject")))))
-    
+   
 ;; We could also do data-visualization using tech-viz.
 (defn visual
   []
