@@ -65,25 +65,39 @@
 ;; We could use the clojure functions to classify data according to this criterion and see whether there exists separate equilibrium.
 (defn eva-cond
   []
+  (let [qH  (/ (- (* @I (* (+ 1 @rate) (+ @H @R))) (* @R (+ @H @R))) (* @R (- @L @H))) 
+        qL  (/ (- (* @I (* (+ 1 @rate) (+ @L @R))) (* @R (+ @H @R))) (* @R (- @L @H)))]
   (cond
-    (true? (< (benchmark-firm @H) (benchmark-investor 1)))  
+    (true? (< (benchmark-firm @H) (benchmark-investor 1)))
     (do
       (println "(benchmark-firm H)<(benchmark-investor 1)")
       (cond
-        (some (partial = "Separate-H-Reject") ((testrun) :outcome))
-        "Separate-H-Reject"
-        (some (partial = "Separate-L-Reject") ((testrun) :outcome))
-        "Separate-L-Reject"
-        :else "Pool-Equilibrium"))
-    :else 
+        (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
+        (do 
+          (println "Separate-H-Reject")  
+          (println qH))
+        (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
+        (do
+          (println "Separate-L-Reject")
+          (println qL))
+        (and (> qH 1) (> qL 1))
+        "Pool-Accept"
+        :else "Pool-Reject"))
+    :else
     (do
       (println "(benchmark-firm H)>=(benchmark-investor 1)")
       (cond
-        (some (partial = "Separate-H-Reject") ((testrun) :outcome))
-        "Separate-H-Reject"
-        (some (partial = "Separate-L-Reject") ((testrun) :outcome))
-        "Separate-L-Reject"
-        :else "Pool-Equilibrium"))))
+        (and (and (<= qH 1) (>= qH 0)) (or (> qL 1) (< qL 0)))
+        (do
+          (println "Separate-H-Reject")
+          (println qH))
+        (and (and (<= qL 1) (>= qL 0)) (or (> qH 1) (< qH 0)))
+        (do
+          (println "Separate-L-Reject")
+          (println qL))
+        (and (> qH 1) (> qL 1))
+        "Pool-Accept"
+        :else "Pool-Reject")))))
     
 ;; We could also do data-visualization using tech-viz.
 (defn visual
