@@ -1,0 +1,9 @@
+colname,gain,importance-type,precision
+years,1.0965769632861115,gain,1.0
+Round,0.5914820208304109,gain,1.0
+Duration,0.47884475149932887,gain,1.0
+Investor_Equity_Total,0.4428361041081633,gain,1.0
+Location,0.43276927160000006,gain,1.0
+Share_Ratio,0.40384574899946396,gain,1.0
+Age,0.37292804333177076,gain,1.0
+Industry_Sector,0.3367838098052632,gain,1.0
