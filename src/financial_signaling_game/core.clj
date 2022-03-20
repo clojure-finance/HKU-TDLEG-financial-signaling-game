@@ -114,12 +114,27 @@
                        :background "white"})
     (vega/vega->svg-file test-outcome "resources/model/visual.svg")))
 
+(defn visual-detail
+  [] 
+  (let [test-outcome (testrun)]
+    (-> test-outcome
+        (ds/columnwise-concat [:benchmark-investor :benchmark-H-firm :benchmark-L-firm])
+        (ds/mapseq-reader)
+        (vega/scatterplot :q :value
+                          {:title "Equilibrium"
+                           :label-key :column
+                           :background "white"})
+        (vega/vega->svg-file "resources/model/visual-detail.svg"))))
+
 (defn -main
   []
   (reset! rate (rand))
-  (reset! I (rand 500000))
-  (reset! R (+ (* @I (+ 1 @rate)) (rand 500000)))
+  (reset! I (rand 5000000))
+  (reset! R (+ (* @I (+ 1 @rate)) (rand 5000000)))
+  (reset! H (+ 50000 (rand 50000)))
+  (reset! L (rand 50000))
   (println (ds/head (testrun)))
   (ds/write! (testrun) "resources/model/test-outcome.csv")
   (println (eva-cond))
-  (visual))
+  (visual)
+  (visual-detail))
